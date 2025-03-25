@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <base href="/teamupapp2/">
+  <!-- Dynamic Base Href (choose ONE method) -->
+  <!-- Method 1: JavaScript (recommended for GitHub Pages) -->
+  <script>
+    const isGitHubPages = window.location.hostname.includes('github.io');
+    document.write(`<base href="${isGitHubPages ? '/teamupapp2/' : '/'}" />`);
+  </script>
+
+  <!-- Method 2: Static (if using Firebase with custom domain) -->
+  <!-- <base href="/"> -->
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="A new Flutter project.">
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!-- iOS meta tags & icons (updated) -->
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="testing_f1">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
@@ -20,15 +28,20 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
-<script>
-  // Add your onEntrypointLoaded logic here
-  onEntrypointLoaded = function(engineInitializer) {
-    let config = { renderer: 'html' };
-    engineInitializer.initializeEngine(config).then(function(appRunner) {
-      appRunner.runApp();
+  <!-- Flutter initialization -->
+  <script src="flutter.js" defer></script>
+  <script>
+    window.addEventListener('load', function() {
+      let engineInitializer = flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: async function(engineInitializer) {
+          let appRunner = await engineInitializer.initializeEngine();
+          await appRunner.runApp();
+        }
+      });
     });
-  };
-</script>
-<script src="flutter_bootstrap.js" async></script>
+  </script>
 </body>
 </html>

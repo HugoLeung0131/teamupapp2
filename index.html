@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Dynamic Base Href (choose ONE method) -->
-  <!-- Method 1: JavaScript (recommended for GitHub Pages) -->
-  <script>
-    const isGitHubPages = window.location.hostname.includes('github.io');
-    document.write(`<base href="${isGitHubPages ? '/teamupapp2/' : '/'}" />`);
-  </script>
-
-  <!-- Method 2: Static (if using Firebase with custom domain) -->
-  <!-- <base href="/"> -->
-
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="A new Flutter project.">
+  
+  <!-- Dynamic Base Href for GitHub Pages -->
+  <script>
+    document.write('<base href="' + (window.location.pathname.includes('/teamupapp2/') ? '/teamupapp2/' : '/') + '" />');
+  </script>
 
-  <!-- iOS meta tags & icons (updated) -->
+  <!-- Mobile Config -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="testing_f1">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png">
 
   <title>testing_f1</title>
   <link rel="manifest" href="manifest.json">
+  
+  <!-- Flutter Web Runtime -->
+  <script src="flutter.js" defer></script>
 </head>
 <body>
-  <!-- Flutter initialization -->
-  <script src="flutter.js" defer></script>
+  <!-- Empty container where Flutter app will mount -->
+  <div id="flutter-host"></div>
+
+  <!-- Flutter Initialization Script -->
   <script>
     window.addEventListener('load', function() {
-      let engineInitializer = flutter.loader.loadEntrypoint({
+      _flutter.loader.loadEntrypoint({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
         },
         onEntrypointLoaded: async function(engineInitializer) {
-          let appRunner = await engineInitializer.initializeEngine();
-          await appRunner.runApp();
+          let appRunner = await engineInitializer.initializeEngine({
+            hostElement: document.getElementById('flutter-host')
+          });
+          return appRunner.runApp();
         }
       });
     });
